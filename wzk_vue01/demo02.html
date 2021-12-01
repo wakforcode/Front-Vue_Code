@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <dev id="app">{{message}} {{message + message}}
+        <div :id = "message"></div>
+        <todo-list></todo-list>
+    </dev>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        Vue.component('todo-item', {
+            props:{
+                title:String,
+                is_deleted :{
+                    type :Boolean,
+                    default :false,
+                }
+            },
+            template:`
+            <li>
+                <span v-if = "is_deleted" style="text-decoration: line-through;">{{title}}</span>
+                <span v-else>{{title}}</span>
+                <button v-show = "!is_deleted">删除</button>
+            </li>`,
+            data :function(){
+                return {}
+            },
+            methods:{},
+
+        })
+
+        Vue.component('todo-list',{
+
+            template:`
+            <ul>
+            <todo-item v-for = "item in list" :title = "item.title" :is_deleted = "item.is_deleted" ></todo-item>
+            </ul>
+            `,
+            data:function(){
+                return {
+                    list:[{
+                    title:"数学",
+                    is_deleted:false,
+                },{
+                    title:"语文",
+                    is_deleted:true,
+                },{
+                    title:"英语",
+                    is_deleted:false,
+                },{
+                    title:"物理",
+                    is_deleted:true,
+                }]
+                }
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data:{
+                message: '你好',
+            }
+        })
+    </script>
+
+</body>
+</html>
